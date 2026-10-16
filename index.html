@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гитарный Мираж · обучение игре на гитаре</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 30%, #1a1e2f, #0b0d17 80%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* загадочные светящиеся пятна */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(150, 100, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 10% 70%, rgba(0, 200, 255, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 95% 85%, rgba(255, 150, 200, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glass-panel {
+            background: rgba(20, 25, 40, 0.45);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(180, 200, 255, 0.2);
+            border-radius: 2.5rem;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 0 40px rgba(100, 150, 255, 0.2);
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* лёгкий стеклянный блик сверху */
+        .glass-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(200, 220, 255, 0.5), transparent);
+            pointer-events: none;
+        }
+
+        .site-header {
+            padding: 2rem 2.5rem 1rem 2.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            border-bottom: 1px solid rgba(160, 180, 255, 0.15);
+        }
+
+        .logo h1 {
+            font-weight: 400;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #e0e9ff, #b0c4ff, #cfb3ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(140, 170, 255, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo h1 span {
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 8px #8a9eff);
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            background: rgba(10, 15, 28, 0.5);
+            backdrop-filter: blur(8px);
+            padding: 0.4rem;
+            border-radius: 4rem;
+            border: 1px solid rgba(200, 215, 255, 0.15);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #c9d4f0;
+            font-weight: 400;
+            font-size: 1rem;
+            padding: 0.6rem 1.6rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(4px);
+            position: relative;
+        }
+
+        .nav-btn:hover {
+            color: white;
+            background: rgba(120, 150, 255, 0.1);
+            text-shadow: 0 0 8px #aac3ff;
+        }
+
+        .nav-btn.active {
+            background: rgba(140, 170, 255, 0.25);
+            color: white;
+            box-shadow: 0 0 20px rgba(100, 140, 255, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .content {
+            padding: 2rem 2.5rem 2.5rem 2.5rem;
+            min-height: 500px;
+        }
+
+        /* секции вкладок */
+        .tab-pane {
+            display: none;
+            animation: fadeGlass 0.5s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeGlass {
+            0% { opacity: 0.3; backdrop-filter: blur(2px); }
+            100% { opacity: 1; backdrop-filter: blur(16px); }
+        }
+
+        /* общие карточки */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.8rem;
+            margin-top: 1rem;
+        }
+
+        .glass-card {
+            background: rgba(20, 25, 45, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(150, 180, 255, 0.2);
+            border-radius: 2rem;
+            padding: 1.6rem 1.5rem;
+            box-shadow: 0 15px 25px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+            transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+            color: #eef3ff;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(190, 210, 255, 0.5);
+            box-shadow: 0 25px 35px -10px #00000080, 0 0 25px rgba(120, 150, 255, 0.3);
+        }
+
+        .glass-card h3 {
+            font-weight: 400;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+            color: #d6e2ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(160, 190, 255, 0.2);
+            padding-bottom: 0.6rem;
+        }
+
+        .glass-card p, .glass-card .desc {
+            color: #b6c4e0;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        /* аккорды */
+        .chord-diagram {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.8rem;
+            border-radius: 1.2rem;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-align: center;
+            color: #c6d9ff;
+            border: 1px solid rgba(180, 200, 255, 0.3);
+            text-shadow: 0 0 6px #6f8cff;
+        }
+
+        .chord-fingers {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: #9aacd0;
+            margin-top: 0.3rem;
+        }
+
+        /* песни */
+        .song-card {
+            display: flex;
+            flex-direction: column;
+            max-height: 300px;
+        }
+
+        .song-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #e1eaff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .song-artist {
+            font-size: 0.85rem;
+            color: #98a9d0;
+            letter-spacing: 1px;
+            margin-bottom: 0.4rem;
+        }
+
+        .lyrics-preview {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.9rem;
+            border-radius: 1.2rem;
+            font-size: 0.85rem;
+            color: #b8caee;
+            overflow-y: auto;
+            white-space: pre-line;
+            line-height: 1.7;
+            border: 1px solid rgba(130, 160, 230, 0.3);
+            scrollbar-width: thin;
+            scrollbar-color: #4a5e8a #1e2233;
+            max-height: 130px;
+            margin: 0.4rem 0;
+        }
+
+        .lyrics-preview::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .lyrics-preview::-webkit-scrollbar-track {
+            background: #1e2233;
+            border-radius: 10px;
+        }
+
+        .lyrics-preview::-webkit-scrollbar-thumb {
+            background: #4a5e8a;
+            border-radius: 10px;
+        }
+
+        .chords-line {
+            font-family: 'Courier New', monospace;
+            color: #b7d0ff;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            background: rgba(60, 80, 140, 0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* вкладка "упражнения" */
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.3rem;
+        }
+
+        .exercise-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            background: rgba(20, 30, 50, 0.35);
+            border-radius: 2rem;
+            padding: 1rem 1.5rem;
+            border: 1px solid rgba(150, 180, 255, 0.15);
+        }
+
+        .exercise-icon {
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 10px #7f9eff);
+        }
+
+        /* адаптив */
+        @media (max-width: 750px) {
+            body { padding: 0.8rem; }
+            .glass-panel { border-radius: 1.8rem; }
+            .site-header { padding: 1.5rem 1.2rem 0.8rem; flex-direction: column; align-items: flex-start; }
+            .nav-tabs { width: 100%; justify-content: center; }
+            .nav-btn { padding: 0.5rem 0.9rem; font-size: 0.9rem; flex: 1 0 auto; text-align: center; }
+            .content { padding: 1.5rem 1.2rem 2rem; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .logo h1 { font-size: 1.6rem; }
+        }
+
+        @media (max-width: 450px) {
+            .nav-btn { font-size: 0.8rem; padding: 0.4rem 0.6rem; }
+            .glass-card h3 { font-size: 1.3rem; }
+            .chord-diagram { font-size: 1rem; }
+        }
+
+        /* декоративный текст */
+        .mystic-hint {
+            font-size: 0.75rem;
+            color: #7a8bb0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #6a7ba0;
+            border-top: 1px solid rgba(140, 170, 255, 0.1);
+            padding-top: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .badge {
+            background: rgba(140, 170, 255, 0.2);
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            font-size: 0.8rem;
+            color: #c8d9ff;
+            align-self: flex-start;
+            border: 1px solid rgba(180, 200, 255, 0.3);
+        }
+
+        button.small-btn {
+            background: rgba(120, 150, 255, 0.2);
+            border: 1px solid rgba(180, 200, 255, 0.4);
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            color: #d0ddff;
+            font-size: 0.8rem;
+            cursor: default;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+            width: fit-content;
+        }
+
+        button.small-btn:hover {
+            background: rgba(140, 170, 255, 0.35);
+            color: white;
+            border-color: rgba(220, 235, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-panel">
+        <header class="site-header">
+            <div class="logo">
+                <h1><span>🎸</span> Гитарный Мираж</h1>
+            </div>
+            <div class="nav-tabs">
+                <button class="nav-btn active" data-tab="chords">Аккорды</button>
+                <button class="nav-btn" data-tab="songs">Песни</button>
+                <button class="nav-btn" data-tab="exercises">Упражнения</button>
+            </div>
+        </header>
+
+        <main class="content">
+            <!-- Вкладка Аккорды -->
+            <section id="chords" class="tab-pane active">
+                <div class="cards-grid">
+                    <!-- Am -->
+                    <div class="glass-card">
+                        <h3>🎵 Am</h3>
+                        <div class="chord-diagram">x 0 2 2 1 0</div>
+                        <div class="chord-fingers">указательный: 2 лад (3 струна)<br>средний: 2 лад (4 струна)<br>безымянный: 1 лад (2 струна)</div>
+                        <div class="badge">ля минор</div>
+                    </div>
+                    <!-- C -->
+                    <div class="glass-card">
+                        <h3>🎵 C</h3>
+                        <div class="chord-diagram">x 3 2 0 1 0</div>
+                        <div class="chord-fingers">указательный: 1 лад (2 струна)<br>средний: 2 лад (4 струна)<br>безымянный: 3 лад (5 струна)</div>
+                        <div class="badge">до мажор</div>
+                    </div>
+                    <!-- G -->
+                    <div class="glass-card">
+                        <h3>🎵 G</h3>
+                        <div class="chord-diagram">3 2 0 0 3 3</div>
+                        <div class="chord-fingers">средний: 2 лад (5 струна)<br>указательный: 3 лад (6 струна)<br>безымянный: 3 лад (2 струна)<br>мизинец: 3 лад (1 струна)</div>
+                        <div class="badge">соль мажор</div>
+                    </div>
+                    <!-- D -->
+                    <div class="glass-card">
+                        <h3>🎵 D</h3>
+                        <div class="chord-diagram">x x 0 2 3 2</div>
+                        <div class="chord-fingers">указательный: 2 лад (3 струна)<br>средний: 2 лад (1 струна)<br>безымянный: 3 лад (2 струна)</div>
+                        <div class="badge">ре мажор</div>
+                    </div>
+                    <!-- Em -->
+                    <div class="glass-card">
+                        <h3>🎵 Em</h3>
+                        <div class="chord-diagram">0 2 2 0 0 0</div>
+                        <div class="chord-fingers">средний: 2 лад (5 струна)<br>безымянный: 2 лад (4 струна)</div>
+                        <div class="badge">ми минор</div>
+                    </div>
+                    <!-- F -->
+                    <div class="glass-card">
+                        <h3>🎵 F (баррэ)</h3>
+                        <div class="chord-diagram">1 3 3 2 1 1</div>
+                        <div class="chord-fingers">баррэ 1 лад, остальные: указательный 1 лад, средний 2 лад (3 струна), безымянный 3 лад (5 струна), мизинец 3 лад (4 струна)</div>
+                        <div class="badge">фа мажор (баррэ)</div>
+                    </div>
+                </div>
+                <div class="mystic-hint">✦ нажми на карточку аккорда, чтобы запомнить ✦</div>
+            </section>
+
+            <!-- Вкладка Песни -->
+            <section id="songs" class="tab-pane">
+                <div class="cards-grid">
+                    <!-- Песня 1 -->
+                    <div class="glass-card song-card">
+                        <div class="song-title">Звезда по имени Солнце <span style="font-size:1rem;">⭐</span></div>
+                        <div class="song-artist">Кино</div>
+                        <div class="chords-line">Am | C | D | Em</div>
+                        <div class="lyrics-preview">
+Am              C
+Белый снег, серый лёд,
+D               Em
+На растрескавшейся земле.
+Am              C
+Одеялом лоскутным на ней —
+D               Em
+Город в дорожной петле.
+                        </div>
+                        <button class="small-btn">учить аккорды</button>
+                    </div>
+                    <!-- Песня 2 -->
+                    <div class="glass-card song-card">
+                        <div class="song-title">Кукушка <span style="font-size:1rem;">🐦</span></div>
+                        <div class="song-artist">Кино</div>
+                        <div class="chords-line">Em | Am | D | G</div>
+                        <div class="lyrics-preview">
+Em                Am
+Песен ещё ненаписанных, сколько?
+D                 G
+Скажи, кукушка, пропой.
+Em                Am
+В городе мне жить или на выселках,
+D                 G
+Камнем лежать или гореть звездой?
+                        </div>
+                        <button class="small-btn">учить аккорды</button>
+                    </div>
+                    <!-- Песня 3 -->
+                    <div class="glass-card song-card">
+                        <div class="song-title">Как на войне <span style="font-size:1rem;">🎸</span></div>
+                        <div class="song-artist">Агата Кристи</div>
+                        <div class="chords-line">Am | F | C | G</div>
+                        <div class="lyrics-preview">
+Am          F
+Я на войне, как на войне,
+C           G
+Я убиваю и меня убивают.
+Am          F
+А где-то там, в чужой стране,
+C           G
+Другая жизнь, но нас не выбирают.
+                        </div>
+                        <button class="small-btn">учить аккорды</button>
+                    </div>
+                    <!-- Песня 4 -->
+                    <div class="glass-card song-card">
+                        <div class="song-title">Батарейка <span style="font-size:1rem;">🔋</span></div>
+                        <div class="song-artist">Сплин</div>
+                        <div class="chords-line">Em | C | G | D</div>
+                        <div class="lyrics-preview">
+Em              C
+Я не могу без тебя, как батарейка,
+G               D
+Я заряжаюсь, когда ты рядом.
+Em              C
+Ты моя вечная жизнь, ты моя грелка,
+G               D
+Ты мой единственный источник яда.
+                        </div>
+                        <button class="small-btn">учить аккорды</button>
+                    </div>
+                </div>
+                <div class="mystic-hint">✦ текст и аккорды — всё для твоего обучения ✦</div>
+            </section>
+
+            <!-- Вкладка Упражнения -->
+            <section id="exercises" class="tab-pane">
+                <div class="exercise-list">
+                    <div class="exercise-item">
+                        <div class="exercise-icon">🎼</div>
+                        <div>
+                            <h3 style="font-weight:400; color:#d0ddff;">Перебор «четвёрка»</h3>
+                            <p style="color:#9aacd0;">Бас – 3 – 2 – 1, играется на любом аккорде. Развивает независимость пальцев.</p>
+                        </div>
+                        <div style="margin-left: auto; color:#b8caff;">🕒 5 мин</div>
+                    </div>
+                    <div class="exercise-item">
+                        <div class="exercise-icon">🔥</div>
+                        <div>
+                            <h3 style="font-weight:400; color:#d0ddff;">Бой «шестёрка»</h3>
+                            <p style="color:#9aacd0;">Вниз – вниз – вверх – вверх – вниз – вверх. Классический ритм для тысяч песен.</p>
+                        </div>
+                        <div style="margin-left: auto; color:#b8caff;">🕒 7 мин</div>
+                    </div>
+                    <div class="exercise-item">
+                        <div class="exercise-icon">⚡</div>
+                        <div>
+                            <h3 style="font-weight:400; color:#d0ddff;">Смена аккордов Am – C – G</h3>
+                            <p style="color:#9aacd0;">Медленно переставляй пальцы, доведи до автоматизма. Используй метроном 60 BPM.</p>
+                        </div>
+                        <div style="margin-left: auto; color:#b8caff;">🕒 10 мин</div>
+                    </div>
+                    <div class="exercise-item">
+                        <div class="exercise-icon">🌟</div>
+                        <div>
+                            <h3 style="font-weight:400; color:#d0ddff;">Баррэ F на 1 ладу</h3>
+                            <p style="color:#9aacd0;">Указательный палец прижимает все струны, остальные ставят аккорд. Тренируй по 2 минуты.</p>
+                        </div>
+                        <div style="margin-left: auto; color:#b8caff;">🕒 6 мин</div>
+                    </div>
+                </div>
+                <div class="mystic-hint">✦ регулярность важнее длительности ✦</div>
+            </section>
+
+            <div class="footer-note">
+                🧙‍♂️ Гитарный Мираж · учись, играй, вдохновляйся · 2025
+            </div>
+        </main>
+    </div>
+
+    <script>
+        (function() {
+            // переключение вкладок
+            const tabs = document.querySelectorAll('.nav-btn');
+            const panes = document.querySelectorAll('.tab-pane');
+
+            function activateTab(tabId) {
+                // убираем active у всех кнопок и панелей
+                tabs.forEach(btn => btn.classList.remove('active'));
+                panes.forEach(pane => pane.classList.remove('active'));
+
+                // добавляем активный класс нужной кнопке и панели
+                const activeBtn = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
+                const activePane = document.getElementById(tabId);
+                if (activeBtn) activeBtn.classList.add('active');
+                if (activePane) activePane.classList.add('active');
+            }
+
+            tabs.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const tabId = btn.getAttribute('data-tab');
+                    if (tabId) activateTab(tabId);
+                });
+            });
+
+            // обработка "учить аккорды" (просто лёгкая анимация, без перехода)
+            const learnButtons = document.querySelectorAll('.small-btn');
+            learnButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.textContent = '✦ аккорды в памяти ✦';
+                    btn.style.background = 'rgba(170, 200, 255, 0.4)';
+                    btn.style.color = '#fff';
+                    setTimeout(() => {
+                        btn.textContent = 'учить аккорды';
+                        btn.style.background = '';
+                        btn.style.color = '';
+                    }, 1200);
+                });
+            });
+
+            // клик по карточкам аккордов (для интерактивности)
+            const chordCards = document.querySelectorAll('#chords .glass-card');
+            chordCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.style.transition = 'all 0.15s';
+                    card.style.transform = 'scale(0.98)';
+                    setTimeout(() => card.style.transform = '', 150);
+                });
+            });
+
+            // лёгкое мерцание для загадочности (опционально)
+            // добавляем небольшую анимацию для фона
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes subtleGlow {
+                    0% { opacity: 0.6; }
+                    50% { opacity: 1; }
+                    100% { opacity: 0.6; }
+                }
+                .glass-panel::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    background: radial-gradient(circle at 30% 40%, rgba(180, 200, 255, 0.05), transparent 70%);
+                    pointer-events: none;
+                    animation: subtleGlow 8s infinite;
+                    border-radius: 2.5rem;
+                }
+            `;
+            document.head.appendChild(style);
+        })();
+    </script>
+</body>
+</html>
