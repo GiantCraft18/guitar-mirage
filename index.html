@@ -16,19 +16,18 @@
             min-height: 100vh;
             background: radial-gradient(circle at 20% 30%, #1a1e2f, #0b0d17 80%);
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             padding: 1.5rem;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* загадочные светящиеся пятна */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background: 
+            background:
                 radial-gradient(circle at 80% 20%, rgba(150, 100, 255, 0.15) 0%, transparent 40%),
                 radial-gradient(circle at 10% 70%, rgba(0, 200, 255, 0.12) 0%, transparent 45%),
                 radial-gradient(circle at 95% 85%, rgba(255, 150, 200, 0.1) 0%, transparent 50%);
@@ -49,10 +48,8 @@
             position: relative;
             z-index: 2;
             overflow: hidden;
-            transition: all 0.3s ease;
         }
 
-        /* лёгкий стеклянный блик сверху */
         .glass-panel::after {
             content: '';
             position: absolute;
@@ -88,9 +85,13 @@
             gap: 0.5rem;
         }
 
-        .logo h1 span {
-            font-size: 2.2rem;
-            filter: drop-shadow(0 0 8px #8a9eff);
+        .logo h1 span { font-size: 2.2rem; filter: drop-shadow(0 0 8px #8a9eff); }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .nav-tabs {
@@ -116,7 +117,6 @@
             transition: all 0.3s;
             letter-spacing: 0.3px;
             backdrop-filter: blur(4px);
-            position: relative;
         }
 
         .nav-btn:hover {
@@ -132,27 +132,46 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        .instrument-picker {
+            background: rgba(10, 15, 28, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(200, 215, 255, 0.2);
+            border-radius: 3rem;
+            padding: 0.4rem 1rem;
+            color: #d6e2ff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23b8caff' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.2rem;
+        }
+
+        .instrument-picker:hover, .instrument-picker:focus {
+            border-color: rgba(180, 200, 255, 0.5);
+            box-shadow: 0 0 15px rgba(120, 150, 255, 0.3);
+        }
+
         .content {
             padding: 2rem 2.5rem 2.5rem 2.5rem;
             min-height: 500px;
         }
 
-        /* секции вкладок */
         .tab-pane {
             display: none;
             animation: fadeGlass 0.5s ease;
         }
 
-        .tab-pane.active {
-            display: block;
-        }
+        .tab-pane.active { display: block; }
 
         @keyframes fadeGlass {
-            0% { opacity: 0.3; backdrop-filter: blur(2px); }
-            100% { opacity: 1; backdrop-filter: blur(16px); }
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
         }
 
-        /* общие карточки */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -172,6 +191,8 @@
             display: flex;
             flex-direction: column;
             gap: 0.8rem;
+            cursor: pointer;
+            position: relative;
         }
 
         .glass-card:hover {
@@ -182,11 +203,12 @@
 
         .glass-card h3 {
             font-weight: 400;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             letter-spacing: 0.5px;
             color: #d6e2ff;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 8px;
             border-bottom: 1px solid rgba(160, 190, 255, 0.2);
             padding-bottom: 0.6rem;
@@ -198,7 +220,6 @@
             font-size: 0.95rem;
         }
 
-        /* аккорды */
         .chord-diagram {
             font-family: 'Courier New', monospace;
             background: rgba(0, 0, 0, 0.4);
@@ -222,20 +243,31 @@
             margin-top: 0.3rem;
         }
 
-        /* песни */
+        .badge {
+            background: rgba(140, 170, 255, 0.2);
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            font-size: 0.8rem;
+            color: #c8d9ff;
+            align-self: flex-start;
+            border: 1px solid rgba(180, 200, 255, 0.3);
+        }
+
         .song-card {
             display: flex;
             flex-direction: column;
             max-height: 300px;
+            position: relative;
         }
 
         .song-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 500;
             color: #e1eaff;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 0.5rem;
         }
 
         .song-artist {
@@ -243,37 +275,6 @@
             color: #98a9d0;
             letter-spacing: 1px;
             margin-bottom: 0.4rem;
-        }
-
-        .lyrics-preview {
-            font-family: 'Courier New', monospace;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.9rem;
-            border-radius: 1.2rem;
-            font-size: 0.85rem;
-            color: #b8caee;
-            overflow-y: auto;
-            white-space: pre-line;
-            line-height: 1.7;
-            border: 1px solid rgba(130, 160, 230, 0.3);
-            scrollbar-width: thin;
-            scrollbar-color: #4a5e8a #1e2233;
-            max-height: 130px;
-            margin: 0.4rem 0;
-        }
-
-        .lyrics-preview::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .lyrics-preview::-webkit-scrollbar-track {
-            background: #1e2233;
-            border-radius: 10px;
-        }
-
-        .lyrics-preview::-webkit-scrollbar-thumb {
-            background: #4a5e8a;
-            border-radius: 10px;
         }
 
         .chords-line {
@@ -289,7 +290,401 @@
             margin-bottom: 0.5rem;
         }
 
-        /* вкладка "упражнения" */
+        .song-preview {
+            font-size: 0.85rem;
+            color: #a8b8dc;
+            line-height: 1.5;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            font-style: italic;
+        }
+
+        .open-hint {
+            font-size: 0.75rem;
+            color: #7f9eff;
+            margin-top: auto;
+            text-align: right;
+            letter-spacing: 1px;
+        }
+
+        /* МОДАЛЬНОЕ ОКНО ПЕСНИ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 8, 18, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 100;
+            padding: 1.5rem;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active { display: flex; align-items: flex-start; justify-content: center; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-window {
+            background: rgba(20, 25, 45, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(180, 200, 255, 0.25);
+            border-radius: 2rem;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 60px rgba(100, 150, 255, 0.25);
+            width: 100%;
+            max-width: 1000px;
+            margin: 2rem auto;
+            position: relative;
+            animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            overflow: hidden;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            padding: 1.8rem 2rem 1.2rem 2rem;
+            border-bottom: 1px solid rgba(160, 180, 255, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            position: relative;
+            background: linear-gradient(180deg, rgba(40, 55, 100, 0.4), transparent);
+        }
+
+        .modal-title h2 {
+            font-weight: 500;
+            font-size: 1.8rem;
+            color: #e6eeff;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+
+        .modal-title .artist {
+            color: #98a9d0;
+            letter-spacing: 1.5px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 0.7rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            background: rgba(120, 150, 255, 0.2);
+            border: 1px solid rgba(180, 200, 255, 0.3);
+            padding: 0.3rem 0.9rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            color: #c8d9ff;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(200, 215, 255, 0.25);
+            color: #d0ddff;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s;
+            flex-shrink: 0;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 100, 100, 0.3);
+            border-color: rgba(255, 150, 150, 0.6);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2rem;
+            max-height: 70vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #4a5e8a #1e2233;
+        }
+
+        .modal-body::-webkit-scrollbar { width: 8px; }
+        .modal-body::-webkit-scrollbar-track { background: #1e2233; border-radius: 10px; }
+        .modal-body::-webkit-scrollbar-thumb { background: #4a5e8a; border-radius: 10px; }
+        .modal-body::-webkit-scrollbar-thumb:hover { background: #6a7eb0; }
+
+        .section-label {
+            font-size: 0.8rem;
+            color: #8a9cc8;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(140, 170, 255, 0.3), transparent);
+        }
+
+        .song-text {
+            font-family: 'Courier New', 'Consolas', monospace;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 1.5rem 1.8rem;
+            border-radius: 1.5rem;
+            font-size: 0.95rem;
+            color: #d0ddff;
+            line-height: 2;
+            white-space: pre;
+            overflow-x: auto;
+            border: 1px solid rgba(130, 160, 230, 0.2);
+            margin-bottom: 2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .song-text .chord-inline {
+            color: #a8c5ff;
+            font-weight: 700;
+            text-shadow: 0 0 8px rgba(140, 180, 255, 0.6);
+        }
+
+        /* Схемы аккордов снизу */
+        .chord-diagrams-section {
+            background: rgba(15, 20, 38, 0.5);
+            border: 1px solid rgba(150, 180, 255, 0.15);
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .chord-diagrams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .chord-diagram-card {
+            background: rgba(20, 28, 50, 0.7);
+            border: 1px solid rgba(150, 180, 255, 0.2);
+            border-radius: 1.3rem;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.25s;
+        }
+
+        .chord-diagram-card:hover {
+            border-color: rgba(180, 210, 255, 0.5);
+            box-shadow: 0 0 20px rgba(120, 150, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
+        .chord-name {
+            font-size: 1.2rem;
+            color: #c8d9ff;
+            letter-spacing: 1px;
+            margin-bottom: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* SVG-подобная схема грифа */
+        .fretboard {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin: 0.5rem 0;
+            padding: 0.5rem 0;
+            background: linear-gradient(180deg, #2a2015, #1a140a);
+            border-radius: 0.8rem;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            position: relative;
+            min-height: 100px;
+        }
+
+        .fretboard-inner {
+            display: flex;
+            position: relative;
+            padding: 0 8px;
+        }
+
+        .string-col {
+            width: 20px;
+            height: 110px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .string-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1.5px;
+            background: linear-gradient(180deg, #c0c8d8, #808898);
+            transform: translateX(-50%);
+            box-shadow: 0 0 3px rgba(200,210,230,0.4);
+        }
+
+        .string-line.thick { width: 2.5px; background: linear-gradient(180deg, #d0d8e8, #9098a8); }
+        .string-line.thin { width: 1px; background: linear-gradient(180deg, #a8b0c0, #707880); }
+
+        .fret-marker {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(180, 190, 210, 0.25);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.6);
+        }
+
+        .finger-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #c8d9ff, #6a8ee0);
+            box-shadow: 0 0 8px rgba(140, 180, 255, 0.8), 0 2px 3px rgba(0,0,0,0.5);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            font-size: 0.55rem;
+            color: #1a1e2f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .finger-dot.barre {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+        }
+
+        .fret-numbers {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            font-size: 0.65rem;
+            color: #8a9cc8;
+            margin-top: 0.2rem;
+        }
+
+        .fret-numbers span {
+            width: 20px;
+            text-align: center;
+        }
+
+        .open-strings {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            font-size: 0.7rem;
+            color: #a8b8dc;
+            margin-bottom: 0.3rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .open-strings span {
+            width: 20px;
+            text-align: center;
+        }
+
+        .open-strings span.muted { color: #5a5a6a; }
+
+        .fingers-desc {
+            font-size: 0.72rem;
+            color: #8a9cc8;
+            line-height: 1.5;
+            margin-top: 0.6rem;
+            text-align: left;
+            padding: 0 0.3rem;
+        }
+
+        /* Настройки инструмента - модальное окно */
+        .settings-panel {
+            background: rgba(15, 20, 38, 0.6);
+            border: 1px solid rgba(150, 180, 255, 0.2);
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .settings-panel label {
+            color: #a8b8dc;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        select.styled-select {
+            background: rgba(10, 15, 28, 0.8);
+            border: 1px solid rgba(180, 200, 255, 0.3);
+            border-radius: 2rem;
+            padding: 0.5rem 2rem 0.5rem 1rem;
+            color: #d6e2ff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23b8caff' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 0.8rem center;
+            transition: all 0.25s;
+        }
+
+        select.styled-select:hover {
+            border-color: rgba(180, 210, 255, 0.6);
+            box-shadow: 0 0 12px rgba(120, 150, 255, 0.3);
+        }
+
+        .mystic-hint {
+            font-size: 0.75rem;
+            color: #7a8bb0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 1rem;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #6a7ba0;
+            border-top: 1px solid rgba(140, 170, 255, 0.1);
+            padding-top: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        /* вкладка упражнений */
         .exercise-list {
             display: flex;
             flex-direction: column;
@@ -312,7 +707,18 @@
             filter: drop-shadow(0 0 10px #7f9eff);
         }
 
-        /* адаптив */
+        .count-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(140, 170, 255, 0.25);
+            border: 1px solid rgba(180, 200, 255, 0.4);
+            padding: 0.2rem 0.7rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            color: #d0ddff;
+        }
+
         @media (max-width: 750px) {
             body { padding: 0.8rem; }
             .glass-panel { border-radius: 1.8rem; }
@@ -322,61 +728,21 @@
             .content { padding: 1.5rem 1.2rem 2rem; }
             .cards-grid { grid-template-columns: 1fr; }
             .logo h1 { font-size: 1.6rem; }
+            .modal-window { margin: 0.5rem auto; border-radius: 1.5rem; }
+            .modal-header { padding: 1.2rem 1.2rem 0.8rem; }
+            .modal-title h2 { font-size: 1.3rem; }
+            .modal-body { padding: 1.2rem; max-height: 75vh; }
+            .song-text { font-size: 0.8rem; padding: 1rem; }
+            .chord-diagrams-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+            .string-col { width: 16px; height: 90px; }
+            .fret-numbers span { width: 16px; font-size: 0.55rem; }
+            .open-strings span { width: 16px; }
         }
 
         @media (max-width: 450px) {
             .nav-btn { font-size: 0.8rem; padding: 0.4rem 0.6rem; }
-            .glass-card h3 { font-size: 1.3rem; }
+            .glass-card h3 { font-size: 1.2rem; }
             .chord-diagram { font-size: 1rem; }
-        }
-
-        /* декоративный текст */
-        .mystic-hint {
-            font-size: 0.75rem;
-            color: #7a8bb0;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: 0.5rem;
-            font-style: italic;
-        }
-
-        .footer-note {
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.8rem;
-            color: #6a7ba0;
-            border-top: 1px solid rgba(140, 170, 255, 0.1);
-            padding-top: 1.5rem;
-            letter-spacing: 1px;
-        }
-
-        .badge {
-            background: rgba(140, 170, 255, 0.2);
-            border-radius: 30px;
-            padding: 0.2rem 1rem;
-            font-size: 0.8rem;
-            color: #c8d9ff;
-            align-self: flex-start;
-            border: 1px solid rgba(180, 200, 255, 0.3);
-        }
-
-        button.small-btn {
-            background: rgba(120, 150, 255, 0.2);
-            border: 1px solid rgba(180, 200, 255, 0.4);
-            padding: 0.4rem 1rem;
-            border-radius: 2rem;
-            color: #d0ddff;
-            font-size: 0.8rem;
-            cursor: default;
-            backdrop-filter: blur(4px);
-            transition: all 0.2s;
-            width: fit-content;
-        }
-
-        button.small-btn:hover {
-            background: rgba(140, 170, 255, 0.35);
-            color: white;
-            border-color: rgba(220, 235, 255, 0.8);
         }
     </style>
 </head>
@@ -386,136 +752,44 @@
             <div class="logo">
                 <h1><span>🎸</span> Гитарный Мираж</h1>
             </div>
-            <div class="nav-tabs">
-                <button class="nav-btn active" data-tab="chords">Аккорды</button>
-                <button class="nav-btn" data-tab="songs">Песни</button>
-                <button class="nav-btn" data-tab="exercises">Упражнения</button>
+            <div class="header-controls">
+                <select class="instrument-picker" id="instrumentPicker" title="Выберите инструмент">
+                    <option value="acoustic6">🎸 Акустическая 6-струнная</option>
+                    <option value="classic6">🎼 Классическая 6-струнная</option>
+                    <option value="electric6">⚡ Электрогитара 6-струнная</option>
+                    <option value="bass4">🎵 Бас-гитара 4-струнная</option>
+                    <option value="bass5">🎵 Бас-гитара 5-струнная</option>
+                    <option value="ukulele4">🌺 Укулеле сопрано</option>
+                    <option value="ukulele-concert">🌺 Укулеле концерт</option>
+                    <option value="ukulele-tenor">🌺 Укулеле тенор</option>
+                    <option value="ukulele-baritone">🌺 Укулеле баритон</option>
+                    <option value="12string">✨ 12-струнная гитара</option>
+                    <option value="7string">🎸 7-струнная гитара</option>
+                    <option value="8string">🎸 8-струнная гитара</option>
+                </select>
+                <div class="nav-tabs">
+                    <button class="nav-btn active" data-tab="chords">Аккорды</button>
+                    <button class="nav-btn" data-tab="songs">Песни</button>
+                    <button class="nav-btn" data-tab="exercises">Упражнения</button>
+                </div>
             </div>
         </header>
 
         <main class="content">
             <!-- Вкладка Аккорды -->
             <section id="chords" class="tab-pane active">
-                <div class="cards-grid">
-                    <!-- Am -->
-                    <div class="glass-card">
-                        <h3>🎵 Am</h3>
-                        <div class="chord-diagram">x 0 2 2 1 0</div>
-                        <div class="chord-fingers">указательный: 2 лад (3 струна)<br>средний: 2 лад (4 струна)<br>безымянный: 1 лад (2 струна)</div>
-                        <div class="badge">ля минор</div>
-                    </div>
-                    <!-- C -->
-                    <div class="glass-card">
-                        <h3>🎵 C</h3>
-                        <div class="chord-diagram">x 3 2 0 1 0</div>
-                        <div class="chord-fingers">указательный: 1 лад (2 струна)<br>средний: 2 лад (4 струна)<br>безымянный: 3 лад (5 струна)</div>
-                        <div class="badge">до мажор</div>
-                    </div>
-                    <!-- G -->
-                    <div class="glass-card">
-                        <h3>🎵 G</h3>
-                        <div class="chord-diagram">3 2 0 0 3 3</div>
-                        <div class="chord-fingers">средний: 2 лад (5 струна)<br>указательный: 3 лад (6 струна)<br>безымянный: 3 лад (2 струна)<br>мизинец: 3 лад (1 струна)</div>
-                        <div class="badge">соль мажор</div>
-                    </div>
-                    <!-- D -->
-                    <div class="glass-card">
-                        <h3>🎵 D</h3>
-                        <div class="chord-diagram">x x 0 2 3 2</div>
-                        <div class="chord-fingers">указательный: 2 лад (3 струна)<br>средний: 2 лад (1 струна)<br>безымянный: 3 лад (2 струна)</div>
-                        <div class="badge">ре мажор</div>
-                    </div>
-                    <!-- Em -->
-                    <div class="glass-card">
-                        <h3>🎵 Em</h3>
-                        <div class="chord-diagram">0 2 2 0 0 0</div>
-                        <div class="chord-fingers">средний: 2 лад (5 струна)<br>безымянный: 2 лад (4 струна)</div>
-                        <div class="badge">ми минор</div>
-                    </div>
-                    <!-- F -->
-                    <div class="glass-card">
-                        <h3>🎵 F (баррэ)</h3>
-                        <div class="chord-diagram">1 3 3 2 1 1</div>
-                        <div class="chord-fingers">баррэ 1 лад, остальные: указательный 1 лад, средний 2 лад (3 струна), безымянный 3 лад (5 струна), мизинец 3 лад (4 струна)</div>
-                        <div class="badge">фа мажор (баррэ)</div>
-                    </div>
+                <div class="cards-grid" id="chordsGrid">
+                    <!-- заполняется JS -->
                 </div>
                 <div class="mystic-hint">✦ нажми на карточку аккорда, чтобы запомнить ✦</div>
             </section>
 
             <!-- Вкладка Песни -->
             <section id="songs" class="tab-pane">
-                <div class="cards-grid">
-                    <!-- Песня 1 -->
-                    <div class="glass-card song-card">
-                        <div class="song-title">Звезда по имени Солнце <span style="font-size:1rem;">⭐</span></div>
-                        <div class="song-artist">Кино</div>
-                        <div class="chords-line">Am | C | D | Em</div>
-                        <div class="lyrics-preview">
-Am              C
-Белый снег, серый лёд,
-D               Em
-На растрескавшейся земле.
-Am              C
-Одеялом лоскутным на ней —
-D               Em
-Город в дорожной петле.
-                        </div>
-                        <button class="small-btn">учить аккорды</button>
-                    </div>
-                    <!-- Песня 2 -->
-                    <div class="glass-card song-card">
-                        <div class="song-title">Кукушка <span style="font-size:1rem;">🐦</span></div>
-                        <div class="song-artist">Кино</div>
-                        <div class="chords-line">Em | Am | D | G</div>
-                        <div class="lyrics-preview">
-Em                Am
-Песен ещё ненаписанных, сколько?
-D                 G
-Скажи, кукушка, пропой.
-Em                Am
-В городе мне жить или на выселках,
-D                 G
-Камнем лежать или гореть звездой?
-                        </div>
-                        <button class="small-btn">учить аккорды</button>
-                    </div>
-                    <!-- Песня 3 -->
-                    <div class="glass-card song-card">
-                        <div class="song-title">Как на войне <span style="font-size:1rem;">🎸</span></div>
-                        <div class="song-artist">Агата Кристи</div>
-                        <div class="chords-line">Am | F | C | G</div>
-                        <div class="lyrics-preview">
-Am          F
-Я на войне, как на войне,
-C           G
-Я убиваю и меня убивают.
-Am          F
-А где-то там, в чужой стране,
-C           G
-Другая жизнь, но нас не выбирают.
-                        </div>
-                        <button class="small-btn">учить аккорды</button>
-                    </div>
-                    <!-- Песня 4 -->
-                    <div class="glass-card song-card">
-                        <div class="song-title">Батарейка <span style="font-size:1rem;">🔋</span></div>
-                        <div class="song-artist">Сплин</div>
-                        <div class="chords-line">Em | C | G | D</div>
-                        <div class="lyrics-preview">
-Em              C
-Я не могу без тебя, как батарейка,
-G               D
-Я заряжаюсь, когда ты рядом.
-Em              C
-Ты моя вечная жизнь, ты моя грелка,
-G               D
-Ты мой единственный источник яда.
-                        </div>
-                        <button class="small-btn">учить аккорды</button>
-                    </div>
+                <div class="cards-grid" id="songsGrid">
+                    <!-- заполняется JS -->
                 </div>
-                <div class="mystic-hint">✦ текст и аккорды — всё для твоего обучения ✦</div>
+                <div class="mystic-hint">✦ нажми на песню — откроется текст с аккордами и схемами ✦</div>
             </section>
 
             <!-- Вкладка Упражнения -->
@@ -563,77 +837,943 @@ G               D
         </main>
     </div>
 
+    <!-- МОДАЛЬНОЕ ОКНО ПЕСНИ -->
+    <div class="modal-overlay" id="songModal">
+        <div class="modal-window">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <h2 id="modalSongTitle">Название песни</h2>
+                    <div class="artist" id="modalSongArtist">Исполнитель</div>
+                    <div class="modal-meta" id="modalMeta"></div>
+                </div>
+                <button class="close-btn" id="closeModal" title="Закрыть">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-panel">
+                    <label>Инструмент:</label>
+                    <select class="styled-select" id="modalInstrumentSelect">
+                        <option value="acoustic6">Акустическая 6-струнная</option>
+                        <option value="classic6">Классическая 6-струнная</option>
+                        <option value="electric6">Электрогитара 6-струнная</option>
+                        <option value="bass4">Бас-гитара 4-струнная</option>
+                        <option value="bass5">Бас-гитара 5-струнная</option>
+                        <option value="ukulele4">Укулеле сопрано</option>
+                        <option value="ukulele-concert">Укулеле концерт</option>
+                        <option value="ukulele-tenor">Укулеле тенор</option>
+                        <option value="ukulele-baritone">Укулеле баритон</option>
+                        <option value="12string">12-струнная гитара</option>
+                        <option value="7string">7-струнная гитара</option>
+                        <option value="8string">8-струнная гитара</option>
+                    </select>
+                    <label>Струны:</label>
+                    <select class="styled-select" id="modalStringsSelect">
+                        <option value="standard">Стандартный строй (EADGBE)</option>
+                        <option value="drop-d">Drop D (DADGBE)</option>
+                        <option value="half-step">На полтона ниже (Eb Ab Db Gb Bb Eb)</option>
+                        <option value="open-g">Open G (DGDGBD)</option>
+                        <option value="dadgad">DADGAD</option>
+                    </select>
+                </div>
+
+                <div class="section-label">📜 Текст песни с аккордами</div>
+                <div class="song-text" id="modalSongText"></div>
+
+                <div class="chord-diagrams-section">
+                    <div class="section-label">🎯 Схемы зажатия аккордов (аппликатуры)</div>
+                    <div class="chord-diagrams-grid" id="modalChordDiagrams"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        (function() {
-            // переключение вкладок
-            const tabs = document.querySelectorAll('.nav-btn');
-            const panes = document.querySelectorAll('.tab-pane');
+        /* ==================== ДАННЫЕ ==================== */
 
-            function activateTab(tabId) {
-                // убираем active у всех кнопок и панелей
-                tabs.forEach(btn => btn.classList.remove('active'));
-                panes.forEach(pane => pane.classList.remove('active'));
-
-                // добавляем активный класс нужной кнопке и панели
-                const activeBtn = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
-                const activePane = document.getElementById(tabId);
-                if (activeBtn) activeBtn.classList.add('active');
-                if (activePane) activePane.classList.add('active');
+        // База аккордов с аппликатурами (для 6-струнной гитары)
+        // Формат: позиции ладов для каждой струны [6,5,4,3,2,1], -1 = не играется, 0 = открытая
+        // fingers: какой палец на каком ладу (для описания)
+        const CHORD_DB = {
+            'Am': {
+                positions: [-1, 0, 2, 2, 1, 0],
+                fingers: { 3: 2, 4: 3, 2: 1 }, // струна: палец (для 6-струн)
+                description: 'Указательный — 2 лад (3 струна), средний — 2 лад (4 струна), безымянный — 1 лад (2 струна)'
+            },
+            'A': {
+                positions: [-1, 0, 2, 2, 2, 0],
+                fingers: { 3: 2, 4: 3, 2: 4 },
+                description: 'Указательный — 2 лад (4 струна), средний — 2 лад (3 струна), безымянный — 2 лад (2 струна)'
+            },
+            'C': {
+                positions: [-1, 3, 2, 0, 1, 0],
+                fingers: { 5: 3, 4: 2, 2: 1 },
+                description: 'Указательный — 1 лад (2 струна), средний — 2 лад (4 струна), безымянный — 3 лад (5 струна)'
+            },
+            'G': {
+                positions: [3, 2, 0, 0, 3, 3],
+                fingers: { 6: 1, 5: 2, 2: 3, 1: 4 },
+                description: 'Средний — 2 лад (5 струна), указательный — 3 лад (6 струна), безымянный — 3 лад (2 струна), мизинец — 3 лад (1 струна)'
+            },
+            'D': {
+                positions: [-1, -1, 0, 2, 3, 2],
+                fingers: { 3: 1, 1: 2, 2: 3 },
+                description: 'Указательный — 2 лад (3 струна), средний — 2 лад (1 струна), безымянный — 3 лад (2 струна)'
+            },
+            'Em': {
+                positions: [0, 2, 2, 0, 0, 0],
+                fingers: { 5: 2, 4: 3 },
+                description: 'Средний — 2 лад (5 струна), безымянный — 2 лад (4 струна)'
+            },
+            'E': {
+                positions: [0, 2, 2, 1, 0, 0],
+                fingers: { 5: 3, 4: 4, 3: 2 },
+                description: 'Указательный — 1 лад (3 струна), средний — 2 лад (5 струна), безымянный — 2 лад (4 струна)'
+            },
+            'F': {
+                positions: [1, 3, 3, 2, 1, 1],
+                fingers: { 6: 1, 5: 3, 4: 4, 3: 2, 1: 1 },
+                description: 'Баррэ 1 лад (все струны), средний — 2 лад (3 струна), безымянный — 3 лад (5 струна), мизинец — 3 лад (4 струна)'
+            },
+            'Dm': {
+                positions: [-1, -1, 0, 2, 3, 1],
+                fingers: { 3: 2, 2: 3, 1: 1 },
+                description: 'Указательный — 1 лад (1 струна), средний — 2 лад (3 струна), безымянный — 3 лад (2 струна)'
+            },
+            'Bm': {
+                positions: [-1, 2, 4, 4, 3, 2],
+                fingers: { 5: 1, 4: 3, 3: 4, 2: 2, 1: 1 },
+                description: 'Баррэ 2 лад (5 струна), средний — 2 лад (2 струна), безымянный — 3 лад (4 струна), мизинец — 4 лад (3 струна)'
+            },
+            'Bb': {
+                positions: [-1, 1, 3, 3, 3, 1],
+                fingers: { 5: 1, 4: 2, 3: 3, 2: 4, 1: 1 },
+                description: 'Баррэ 1 лад (5 струна, 1 струна), средний — 2 лад (4 струна), безымянный — 3 лад (3 струна)'
+            },
+            'A7': {
+                positions: [-1, 0, 2, 0, 2, 0],
+                fingers: { 4: 2, 2: 3 },
+                description: 'Средний — 2 лад (4 струна), безымянный — 2 лад (2 струна)'
+            },
+            'D7': {
+                positions: [-1, -1, 0, 2, 1, 2],
+                fingers: { 3: 2, 2: 1, 1: 3 },
+                description: 'Указательный — 1 лад (2 струна), средний — 2 лад (3 струна), безымянный — 2 лад (1 струна)'
+            },
+            'E7': {
+                positions: [0, 2, 0, 1, 0, 0],
+                fingers: { 5: 2, 3: 1 },
+                description: 'Указательный — 1 лад (3 струна), средний — 2 лад (5 струна)'
+            },
+            'G7': {
+                positions: [3, 2, 0, 0, 0, 1],
+                fingers: { 6: 3, 5: 2, 1: 1 },
+                description: 'Указательный — 1 лад (1 струна), средний — 2 лад (5 струна), безымянный — 3 лад (6 струна)'
+            },
+            'Cmaj7': {
+                positions: [-1, 3, 2, 0, 0, 0],
+                fingers: { 5: 3, 4: 2 },
+                description: 'Средний — 2 лад (4 струна), безымянный — 3 лад (5 струна)'
+            },
+            'Am7': {
+                positions: [-1, 0, 2, 0, 1, 0],
+                fingers: { 4: 2, 2: 1 },
+                description: 'Указательный — 1 лад (2 струна), средний — 2 лад (4 струна)'
             }
+        };
 
-            tabs.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const tabId = btn.getAttribute('data-tab');
-                    if (tabId) activateTab(tabId);
-                });
-            });
+        // База песен (расширенная)
+        const SONGS_DB = [
+            {
+                id: 1,
+                title: 'Звезда по имени Солнце',
+                artist: 'Кино',
+                chords: ['Am', 'C', 'D', 'Em'],
+                text: `<span class="chord-inline">Am</span>              <span class="chord-inline">C</span>
+Белый снег, серый лёд,
+<span class="chord-inline">D</span>               <span class="chord-inline">Em</span>
+На растрескавшейся земле.
+<span class="chord-inline">Am</span>              <span class="chord-inline">C</span>
+Одеялом лоскутным на ней —
+<span class="chord-inline">D</span>               <span class="chord-inline">Em</span>
+Город в дорожной петле.
 
-            // обработка "учить аккорды" (просто лёгкая анимация, без перехода)
-            const learnButtons = document.querySelectorAll('.small-btn');
-            learnButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    btn.textContent = '✦ аккорды в памяти ✦';
-                    btn.style.background = 'rgba(170, 200, 255, 0.4)';
-                    btn.style.color = '#fff';
-                    setTimeout(() => {
-                        btn.textContent = 'учить аккорды';
-                        btn.style.background = '';
-                        btn.style.color = '';
-                    }, 1200);
-                });
-            });
+<span class="chord-inline">Am</span>              <span class="chord-inline">C</span>
+А над городом плывут облака,
+<span class="chord-inline">D</span>               <span class="chord-inline">Em</span>
+Закрывая небесный свет.
+<span class="chord-inline">Am</span>              <span class="chord-inline">C</span>
+А над городом — жёлтый дым,
+<span class="chord-inline">D</span>               <span class="chord-inline">Em</span>
+Городу две тысячи лет.
 
-            // клик по карточкам аккордов (для интерактивности)
-            const chordCards = document.querySelectorAll('#chords .glass-card');
-            chordCards.forEach(card => {
+<span class="chord-inline">Am</span>              <span class="chord-inline">C</span>
+Две тысячи лет — война,
+<span class="chord-inline">D</span>               <span class="chord-inline">Em</span>
+Война из-за любви.
+<span class="chord-inline">Am</span>              <span class="chord-inline">C</span>
+Война — дело молодых,
+<span class="chord-inline">D</span>               <span class="chord-inline">Em</span>
+Лекарство против морщин.`
+            },
+            {
+                id: 2,
+                title: 'Кукушка',
+                artist: 'Кино',
+                chords: ['Em', 'Am', 'D', 'G'],
+                text: `<span class="chord-inline">Em</span>                <span class="chord-inline">Am</span>
+Песен ещё ненаписанных, сколько?
+<span class="chord-inline">D</span>                 <span class="chord-inline">G</span>
+Скажи, кукушка, пропой.
+<span class="chord-inline">Em</span>                <span class="chord-inline">Am</span>
+В городе мне жить или на выселках,
+<span class="chord-inline">D</span>                 <span class="chord-inline">G</span>
+Камнем лежать или гореть звездой?
+
+<span class="chord-inline">Em</span>                <span class="chord-inline">Am</span>
+Солнце моё, взгляни на меня,
+<span class="chord-inline">D</span>                 <span class="chord-inline">G</span>
+Моя ладонь превратилась в кулак.
+<span class="chord-inline">Em</span>                <span class="chord-inline">Am</span>
+И если есть порох, дай огня.
+<span class="chord-inline">D</span>                 <span class="chord-inline">G</span>
+Вот так.`
+            },
+            {
+                id: 3,
+                title: 'Как на войне',
+                artist: 'Агата Кристи',
+                chords: ['Am', 'F', 'C', 'G'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Я на войне, как на войне,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Я убиваю и меня убивают.
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+А где-то там, в чужой стране,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Другая жизнь, но нас не выбирают.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Я на войне, как на войне,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Я убиваю и меня убивают.
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+А где-то там, в чужой стране,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Другая жизнь, но нас не выбирают.`
+            },
+            {
+                id: 4,
+                title: 'Батарейка',
+                artist: 'Сплин',
+                chords: ['Em', 'C', 'G', 'D'],
+                text: `<span class="chord-inline">Em</span>              <span class="chord-inline">C</span>
+Я не могу без тебя, как батарейка,
+<span class="chord-inline">G</span>               <span class="chord-inline">D</span>
+Я заряжаюсь, когда ты рядом.
+<span class="chord-inline">Em</span>              <span class="chord-inline">C</span>
+Ты моя вечная жизнь, ты моя грелка,
+<span class="chord-inline">G</span>               <span class="chord-inline">D</span>
+Ты мой единственный источник яда.
+
+<span class="chord-inline">Em</span>              <span class="chord-inline">C</span>
+Я не могу без тебя, как батарейка,
+<span class="chord-inline">G</span>               <span class="chord-inline">D</span>
+Я заряжаюсь, когда ты рядом.
+<span class="chord-inline">Em</span>              <span class="chord-inline">C</span>
+Ты моя вечная жизнь, ты моя грелка,
+<span class="chord-inline">G</span>               <span class="chord-inline">D</span>
+Ты мой единственный источник яда.`
+            },
+            {
+                id: 5,
+                title: 'Выхода нет',
+                artist: 'Сплин',
+                chords: ['Am', 'C', 'G', 'D'],
+                text: `<span class="chord-inline">Am</span>           <span class="chord-inline">C</span>
+Сколько лет прошло, всё о том же гудят провода,
+<span class="chord-inline">G</span>            <span class="chord-inline">D</span>
+Всё того же ждут самолёты.
+<span class="chord-inline">Am</span>           <span class="chord-inline">C</span>
+Девочка с глазами из самого синего льда,
+<span class="chord-inline">G</span>            <span class="chord-inline">D</span>
+Тает под огнём пулемёта.
+
+<span class="chord-inline">Am</span>           <span class="chord-inline">C</span>
+Должен идти бой, но нет сил,
+<span class="chord-inline">G</span>            <span class="chord-inline">D</span>
+И где-то там, за горизонтом,
+<span class="chord-inline">Am</span>           <span class="chord-inline">C</span>
+Кто-то ждёт тебя, но выхода нет,
+<span class="chord-inline">G</span>            <span class="chord-inline">D</span>
+Выхода нет.`
+            },
+            {
+                id: 6,
+                title: 'Группа крови',
+                artist: 'Кино',
+                chords: ['Am', 'D', 'Em', 'C'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">D</span>
+Тёплое место, но улицы ждут
+<span class="chord-inline">Em</span>          <span class="chord-inline">C</span>
+Отпечатков наших ног.
+<span class="chord-inline">Am</span>          <span class="chord-inline">D</span>
+Звёздная пыль на сапогах,
+<span class="chord-inline">Em</span>          <span class="chord-inline">C</span>
+Мягкое кресло, клетчатый плед.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">D</span>
+Группа крови на рукаве,
+<span class="chord-inline">Em</span>          <span class="chord-inline">C</span>
+Мой порядковый номер на рукаве.
+<span class="chord-inline">Am</span>          <span class="chord-inline">D</span>
+Пожелай мне удачи в бою,
+<span class="chord-inline">Em</span>          <span class="chord-inline">C</span>
+Пожелай мне удачи.`
+            },
+            {
+                id: 7,
+                title: 'Пачка сигарет',
+                artist: 'Кино',
+                chords: ['Am', 'F', 'C', 'G'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Я сижу и смотрю в чужое небо из чужого окна,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+И не вижу ни одной знакомой звезды.
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Я ходил по всем дорогам, но не помню куда,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+И уже не помню, зачем я здесь.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+И я пью за тех, кто со мной,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+За тех, кто остался жить.
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+За тех, кто не вернулся из боя,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+За всех, кого я любил.`
+            },
+            {
+                id: 8,
+                title: 'Розовый вечер',
+                artist: 'Черников',
+                chords: ['Dm', 'Am', 'E', 'Am'],
+                text: `<span class="chord-inline">Dm</span>          <span class="chord-inline">Am</span>
+Розовый вечер, тёплый ветер,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Ты на другом конце земли.
+<span class="chord-inline">Dm</span>          <span class="chord-inline">Am</span>
+Я зажигаю в небе звёзды,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Чтобы они тебя нашли.
+
+<span class="chord-inline">Dm</span>          <span class="chord-inline">Am</span>
+Птицы летят на юг далёко,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Ветер уносит их след.
+<span class="chord-inline">Dm</span>          <span class="chord-inline">Am</span>
+Я остаюсь с тобой до срока,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Ты — мой единственный свет.`
+            },
+            {
+                id: 9,
+                title: 'Осень',
+                artist: 'ДДТ',
+                chords: ['Am', 'Dm', 'E', 'Am'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Осень, я снова жду тебя,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Жёлтый лист на ладони моей.
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+В небе птицы кричат, улетая,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+И становится мир чуть светлей.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Осень, я снова жду тебя,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Серый дождь за окном стучит.
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Ты пришла, и душа согрета,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Осень — время мечтать и любить.`
+            },
+            {
+                id: 10,
+                title: 'Что такое осень',
+                artist: 'ДДТ',
+                chords: ['Am', 'Dm', 'G', 'C', 'F', 'E'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Что такое осень — это небо,
+<span class="chord-inline">G</span>           <span class="chord-inline">C</span>
+Плачущее небо под ногами.
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+В лужах разлетаются птицы с облаками,
+<span class="chord-inline">G</span>           <span class="chord-inline">C</span>
+Осень, я давно с тобою не был.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Осень, в небе жгут корабли,
+<span class="chord-inline">G</span>           <span class="chord-inline">C</span>
+Осень, мне бы прочь от земли.
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Там, где в море тонет печаль,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Осень, я твоя вечная даль.`
+            },
+            {
+                id: 11,
+                title: 'Районы-кварталы',
+                artist: 'Звери',
+                chords: ['Am', 'F', 'C', 'G'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Большие города, пустые поезда,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Ни берега, ни дна — всё начинай с нуля.
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Районы, кварталы, жилые массивы,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Я ухожу, я буду петь, пока есть силы.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Большие города, пустые поезда,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Ни берега, ни дна — всё начинай с нуля.
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Районы, кварталы, жилые массивы,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Я ухожу, я буду петь, пока есть силы.`
+            },
+            {
+                id: 12,
+                title: 'Всё, что касается',
+                artist: 'Звери',
+                chords: ['Am', 'F', 'C', 'G'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Всё, что касается тебя, меня касается,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Всё, что случается с тобой, случается со мной.
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Всё, что касается тебя, меня касается,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Всё, что случается с тобой, случается со мной.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Если ты смеёшься — я смеюсь,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Если ты грустишь — я грущу.
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Всё, что касается тебя, меня касается,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Всё, что случается с тобой, случается со мной.`
+            },
+            {
+                id: 13,
+                title: 'Мои ясные дни',
+                artist: 'Сплин',
+                chords: ['Am', 'F', 'C', 'G'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Мои ясные дни — мои лучшие дни,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Мои светлые сны — мои лучшие сны.
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Я хочу, чтобы ты была счастлива,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Я хочу, чтобы ты была счастлива.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Мои ясные дни — мои лучшие дни,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Мои светлые сны — мои лучшие сны.
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Я хочу, чтобы ты была счастлива,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Я хочу, чтобы ты была счастлива.`
+            },
+            {
+                id: 14,
+                title: 'Небо Лондона',
+                artist: 'Земфира',
+                chords: ['Am', 'Dm', 'G', 'C', 'F', 'E'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Небо Лондона, серое небо,
+<span class="chord-inline">G</span>           <span class="chord-inline">C</span>
+Дождь за окном, и я не был там.
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Ты далеко, и я не с тобой,
+<span class="chord-inline">G</span>           <span class="chord-inline">C</span>
+Но я вернусь, я обещаю.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Небо Лондона, серое небо,
+<span class="chord-inline">G</span>           <span class="chord-inline">C</span>
+Дождь за окном, и я не был там.
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Ты далеко, и я не с тобой,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Но я вернусь, я обещаю.`
+            },
+            {
+                id: 15,
+                title: 'Искала',
+                artist: 'Земфира',
+                chords: ['Am', 'Dm', 'E', 'Am'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Искала тебя, искала везде,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+В чужих городах, в чужой суете.
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Искала в толпе, искала в дыму,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Но только во сне я видела тебя.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Искала тебя, искала везде,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+В чужих городах, в чужой суете.
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Искала в толпе, искала в дыму,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Но только во сне я видела тебя.`
+            },
+            {
+                id: 16,
+                title: 'Прогулки по воде',
+                artist: 'Наутилус Помпилиус',
+                chords: ['Am', 'Dm', 'G', 'C', 'F', 'E'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+С причала рыбачил апостол Андрей,
+<span class="chord-inline">G</span>           <span class="chord-inline">C</span>
+А Спаситель ходил по воде.
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+И Андрей сказал: «Я тоже так смогу»,
+<span class="chord-inline">G</span>           <span class="chord-inline">C</span>
+И пошёл, и упал, и утонул.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+С причала рыбачил апостол Андрей,
+<span class="chord-inline">G</span>           <span class="chord-inline">C</span>
+А Спаситель ходил по воде.
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+И Андрей сказал: «Я тоже так смогу»,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+И пошёл, и упал, и утонул.`
+            },
+            {
+                id: 17,
+                title: 'Крылья',
+                artist: 'Наутилус Помпилиус',
+                chords: ['Am', 'F', 'C', 'G'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Ты снимаешь вечернее платье,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Стоя лицом к окну.
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Я вижу твою спину, я вижу твои крылья,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Я вижу твою вину.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Крылья, крылья, я не могу без тебя,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Крылья, крылья, я не могу без тебя.
+<span class="chord-inline">Am</span>          <span class="chord-inline">F</span>
+Крылья, крылья, я не могу без тебя,
+<span class="chord-inline">C</span>           <span class="chord-inline">G</span>
+Крылья, крылья, я не могу без тебя.`
+            },
+            {
+                id: 18,
+                title: 'Последнее письмо',
+                artist: 'Наутилус Помпилиус',
+                chords: ['Am', 'Dm', 'E', 'Am'],
+                text: `<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Я пишу тебе последнее письмо,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Я пишу тебе последнее письмо.
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Я не знаю, где ты, я не знаю, с кем,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Но я знаю, что ты не со мной.
+
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Я пишу тебе последнее письмо,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Я пишу тебе последнее письмо.
+<span class="chord-inline">Am</span>          <span class="chord-inline">Dm</span>
+Я не знаю, где ты, я не знаю, с кем,
+<span class="chord-inline">E</span>           <span class="chord-inline">Am</span>
+Но я знаю, что ты не со мной.`
+            }
+        ];
+
+        /* ==================== ЛОГИКА ==================== */
+
+        // текущий выбранный инструмент
+        let currentInstrument = 'acoustic6';
+        let currentStrings = 'standard';
+
+        // отрисовка карточек аккордов
+        function renderChords() {
+            const grid = document.getElementById('chordsGrid');
+            const chords = Object.keys(CHORD_DB);
+            grid.innerHTML = chords.map(chord => {
+                const data = CHORD_DB[chord];
+                const positionsStr = data.positions.map(p => p === -1 ? 'x' : p).join(' ');
+                return `
+                    <div class="glass-card" data-chord="${chord}">
+                        <h3>🎵 ${chord}</h3>
+                        <div class="chord-diagram">${positionsStr}</div>
+                        <div class="badge">аппликатура</div>
+                        <div class="chord-fingers">${data.description || ''}</div>
+                    </div>
+                `;
+            }).join('');
+
+            // интерактивность
+            document.querySelectorAll('#chordsGrid .glass-card').forEach(card => {
                 card.addEventListener('click', () => {
                     card.style.transition = 'all 0.15s';
                     card.style.transform = 'scale(0.98)';
                     setTimeout(() => card.style.transform = '', 150);
                 });
             });
+        }
 
-            // лёгкое мерцание для загадочности (опционально)
-            // добавляем небольшую анимацию для фона
-            const style = document.createElement('style');
-            style.innerHTML = `
-                @keyframes subtleGlow {
-                    0% { opacity: 0.6; }
-                    50% { opacity: 1; }
-                    100% { opacity: 0.6; }
+        // отрисовка карточек песен
+        function renderSongs() {
+            const grid = document.getElementById('songsGrid');
+            grid.innerHTML = SONGS_DB.map(song => {
+                // превью: первые 2-3 строки
+                const plainText = song.text.replace(/<[^>]+>/g, '').trim();
+                const preview = plainText.split('\n').slice(0, 3).join('\n');
+                return `
+                    <div class="glass-card song-card" data-song-id="${song.id}">
+                        <span class="count-badge">${song.chords.length} акк.</span>
+                        <div class="song-title">${song.title}</div>
+                        <div class="song-artist">${song.artist}</div>
+                        <div class="chords-line">${song.chords.join(' · ')}</div>
+                        <div class="song-preview">${preview.replace(/\n/g, ' ')}</div>
+                        <div class="open-hint">нажми →</div>
+                    </div>
+                `;
+            }).join('');
+
+            // обработчик открытия модалки
+            document.querySelectorAll('#songsGrid .glass-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const songId = parseInt(card.getAttribute('data-song-id'));
+                    openSongModal(songId);
+                });
+            });
+        }
+
+        // открытие модального окна песни
+        function openSongModal(songId) {
+            const song = SONGS_DB.find(s => s.id === songId);
+            if (!song) return;
+
+            document.getElementById('modalSongTitle').textContent = song.title;
+            document.getElementById('modalSongArtist').textContent = song.artist;
+
+            // мета-бейджи с аккордами
+            const metaContainer = document.getElementById('modalMeta');
+            metaContainer.innerHTML = song.chords.map(c => `<span class="meta-badge">${c}</span>`).join('');
+
+            // текст песни
+            document.getElementById('modalSongText').innerHTML = song.text;
+
+            // схемы аккордов
+            renderChordDiagrams(song.chords);
+
+            // синхронизация селектов
+            document.getElementById('modalInstrumentSelect').value = currentInstrument;
+            document.getElementById('modalStringsSelect').value = currentStrings;
+
+            // показ
+            document.getElementById('songModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // рендер схем аккордов (аппликатур) в модалке
+        function renderChordDiagrams(chordNames) {
+            const container = document.getElementById('modalChordDiagrams');
+            container.innerHTML = chordNames.map(chord => {
+                const data = CHORD_DB[chord];
+                if (!data) return `<div class="chord-diagram-card"><div class="chord-name">${chord}</div><div style="color:#8a9cc8;font-size:0.8rem;">нет схемы</div></div>`;
+
+                // определяем количество струн в зависимости от инструмента
+                // для простоты используем 6-струнную как основу, но адаптируем отображение
+                const isBass = currentInstrument.includes('bass');
+                const isUkulele = currentInstrument.includes('ukulele');
+                const is7 = currentInstrument === '7string';
+                const is8 = currentInstrument === '8string';
+                const is12 = currentInstrument === '12string';
+
+                // Для баса и укулеле показываем упрощённую схему (4 струны)
+                // Для 6-струнных — 6 струн
+                // Для 7/8 — пока оставим 6-струнную как основу (можно расширить)
+                let numStrings = 6;
+                if (isBass) numStrings = 4;
+                else if (isUkulele) numStrings = 4;
+                else if (is7) numStrings = 7;
+                else if (is8) numStrings = 8;
+                // для 12-струнной оставим 6 (спаренные)
+
+                // берём позиции: если струн меньше 6, обрезаем/адаптируем
+                let positions = [...data.positions];
+                if (numStrings < 6) {
+                    // для 4-струнных инструментов: берём 4 верхних (или адаптируем)
+                    // Упрощённо: для укулеле/баса используем первые 4 позиции (начиная с 6-й струны)
+                    // На самом деле аппликатуры укулеле отличаются, но для демонстрации
+                    // покажем 4 струны: G C E A (стандартный укулеле) — но у нас данные для гитары.
+                    // Для простоты отобразим 4 струны, взяв индексы [2,3,4,5] (D G B E) или адаптируем
+                    // Лучше: для укулеле/баса покажем заглушенные, но чтобы не запутать — покажем
+                    // обрезанные позиции, но с пометкой.
+                    if (isUkulele) {
+                        // Укулеле: струны G C E A — возьмём позиции для 4-струн (упрощённо)
+                        // Переопределим для типичных аккордов укулеле (упрощённо)
+                        // Это демо, поэтому используем адаптированные данные
+                        // Для укулеле используем другой набор (очень упрощённо)
+                        const ukePositions = {
+                            'Am': [2, 0, 0, 0],
+                            'C': [0, 0, 0, 3],
+                            'G': [0, 2, 3, 2],
+                            'D': [2, 2, 2, 0],
+                            'Em': [0, 4, 3, 2],
+                            'F': [2, 0, 1, 0],
+                            'Dm': [2, 2, 1, 0],
+                            'A': [2, 1, 0, 0],
+                            'E': [1, 4, 0, 2],
+                            'Bm': [4, 2, 2, 2],
+                            'Bb': [3, 2, 1, 1],
+                            'A7': [0, 1, 0, 0],
+                            'D7': [2, 2, 2, 3],
+                            'E7': [1, 2, 0, 2],
+                            'G7': [0, 2, 1, 2],
+                            'Cmaj7': [0, 0, 0, 2],
+                            'Am7': [0, 0, 0, 0]
+                        };
+                        positions = ukePositions[chord] || [0,0,0,0];
+                    } else if (isBass) {
+                        // Бас: 4 струны E A D G
+                        // Упрощённо
+                        const bassPositions = {
+                            'Am': [-1, 0, 2, 2],
+                            'C': [-1, 3, 2, 0],
+                            'G': [3, 2, 0, 0],
+                            'D': [-1, -1, 0, 2],
+                            'Em': [0, 2, 2, 0],
+                            'F': [1, 3, 3, 2],
+                            'Dm': [-1, -1, 0, 2],
+                            'A': [-1, 0, 2, 2],
+                            'E': [0, 2, 2, 1],
+                            'Bm': [-1, 2, 4, 4],
+                            'Bb': [-1, 1, 3, 3],
+                            'A7': [-1, 0, 2, 0],
+                            'D7': [-1, -1, 0, 2],
+                            'E7': [0, 2, 0, 1],
+                            'G7': [3, 2, 0, 0],
+                            'Cmaj7': [-1, 3, 2, 0],
+                            'Am7': [-1, 0, 2, 0]
+                        };
+                        positions = bassPositions[chord] || [0,0,0,0];
+                    }
+                } else if (is7) {
+                    // 7-струнная: добавляем 7-ю струну (B) — упрощённо
+                    const sevenPositions = {
+                        'Am': [-1, -1, 0, 2, 2, 1, 0],
+                        'C': [-1, -1, 3, 2, 0, 1, 0],
+                        'G': [-1, 3, 2, 0, 0, 3, 3],
+                        'D': [-1, -1, -1, 0, 2, 3, 2],
+                        'Em': [0, 0, 2, 2, 0, 0, 0],
+                        'F': [1, 1, 3, 3, 2, 1, 1],
+                        'Dm': [-1, -1, -1, 0, 2, 3, 1],
+                        'A': [-1, -1, 0, 2, 2, 2, 0],
+                        'E': [0, 0, 2, 2, 1, 0, 0],
+                        'Bm': [-1, -1, 2, 4, 4, 3, 2],
+                        'Bb': [-1, -1, 1, 3, 3, 3, 1]
+                    };
+                    positions = sevenPositions[chord] || data.positions;
+                } else if (is8) {
+                    // 8-струнная: упрощённо
+                    const eightPositions = {
+                        'Am': [-1, -1, -1, 0, 2, 2, 1, 0],
+                        'C': [-1, -1, -1, 3, 2, 0, 1, 0],
+                        'G': [-1, -1, 3, 2, 0, 0, 3, 3],
+                        'D': [-1, -1, -1, -1, 0, 2, 3, 2],
+                        'Em': [0, 0, 0, 2, 2, 0, 0, 0],
+                        'F': [1, 1, 1, 3, 3, 2, 1, 1],
+                        'Dm': [-1, -1, -1, -1, 0, 2, 3, 1],
+                        'A': [-1, -1, -1, 0, 2, 2, 2, 0],
+                        'E': [0, 0, 0, 2, 2, 1, 0, 0],
+                        'Bm': [-1, -1, -1, 2, 4, 4, 3, 2],
+                        'Bb': [-1, -1, -1, 1, 3, 3, 3, 1]
+                    };
+                    positions = eightPositions[chord] || data.positions;
                 }
-                .glass-panel::before {
-                    content: '';
-                    position: absolute;
-                    inset: 0;
-                    background: radial-gradient(circle at 30% 40%, rgba(180, 200, 255, 0.05), transparent 70%);
-                    pointer-events: none;
-                    animation: subtleGlow 8s infinite;
-                    border-radius: 2.5rem;
+
+                // Обрезаем или дополняем до numStrings
+                if (positions.length > numStrings) {
+                    positions = positions.slice(positions.length - numStrings);
+                } else if (positions.length < numStrings) {
+                    while (positions.length < numStrings) positions.unshift(-1);
                 }
-            `;
-            document.head.appendChild(style);
-        })();
+
+                // Строим SVG-подобную схему
+                const stringNames = numStrings === 6 ? ['E','A','D','G','B','E'] :
+                                    numStrings === 4 ? (isBass ? ['E','A','D','G'] : ['G','C','E','A']) :
+                                    numStrings === 7 ? ['B','E','A','D','G','B','E'] :
+                                    numStrings === 8 ? ['F#','B','E','A','D','G','B','E'] :
+                                    ['E','A','D','G','B','E'];
+
+                // Определяем максимальный лад для отображения
+                const maxFret = Math.max(4, ...positions.filter(p => p > 0));
+
+                // Создаём разметку грифа
+                let fretboardHtml = '';
+                const stringSpacing = 20;
+                const fretHeight = 22;
+
+                // открытые струны (сверху)
+                let openHtml = '<div class="open-strings">';
+                positions.forEach(p => {
+                    openHtml += `<span class="${p === -1 ? 'muted' : ''}">${p === -1 ? 'x' : (p === 0 ? 'o' : '')}</span>`;
+                });
+                openHtml += '</div>';
+
+                // сам гриф
+                let fretboardInner = '<div class="fretboard-inner">';
+                for (let s = 0; s < numStrings; s++) {
+                    fretboardInner += `<div class="string-col">`;
+                    fretboardInner += `<div class="string-line ${numStrings > 4 ? '' : 'thick'}"></div>`;
+                    // отметки ладов
+                    for (let f = 1; f <= maxFret; f++) {
+                        const topPos = (f - 1) * fretHeight + 8;
+                        fretboardInner += `<div class="fret-marker" style="top:${topPos}px;"></div>`;
+                        // если палец на этом ладу
+                        const pos = positions[s];
+                        if (pos === f) {
+                            // определяем палец (упрощённо)
+                            const fingerNum = data.fingers && data.fingers[s+1] ? data.fingers[s+1] : '?';
+                            fretboardInner += `<div class="finger-dot" style="top:${topPos + 4}px;" title="палец ${fingerNum}">${fingerNum}</div>`;
+                        }
+                    }
+                    fretboardInner += `</div>`;
+                }
+                fretboardInner += '</div>';
+
+                // номера ладов
+                let fretNums = '<div class="fret-numbers">';
+                for (let f = 1; f <= maxFret; f++) {
+                    fretNums += `<span>${f}</span>`;
+                }
+                fretNums += '</div>';
+
+                return `
+                    <div class="chord-diagram-card">
+                        <div class="chord-name">${chord}</div>
+                        ${openHtml}
+                        <div class="fretboard" style="min-height:${maxFret * fretHeight + 20}px;">
+                            ${fretboardInner}
+                        </div>
+                        ${fretNums}
+                        <div class="fingers-desc">${data.description || ''}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // закрытие модалки
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('songModal').classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        document.getElementById('songModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('songModal')) {
+                document.getElementById('songModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // переключение вкладок
+        const tabs = document.querySelectorAll('.nav-btn');
+        const panes = document.querySelectorAll('.tab-pane');
+
+        function activateTab(tabId) {
+            tabs.forEach(btn => btn.classList.remove('active'));
+            panes.forEach(pane => pane.classList.remove('active'));
+            const activeBtn = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
+            const activePane = document.getElementById(tabId);
+            if (activeBtn) activeBtn.classList.add('active');
+            if (activePane) activePane.classList.add('active');
+        }
+
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                if (tabId) activateTab(tabId);
+            });
+        });
+
+        // обработка смены инструмента
+        document.getElementById('instrumentPicker').addEventListener('change', (e) => {
+            currentInstrument = e.target.value;
+            // обновляем схемы, если модалка открыта
+            if (document.getElementById('songModal').classList.contains('active')) {
+                const songTitle = document.getElementById('modalSongTitle').textContent;
+                const song = SONGS_DB.find(s => s.title === songTitle);
+                if (song) renderChordDiagrams(song.chords);
+            }
+        });
+
+        // обработка смены инструмента в модалке
+        document.getElementById('modalInstrumentSelect').addEventListener('change', (e) => {
+            currentInstrument = e.target.value;
+            document.getElementById('instrumentPicker').value = currentInstrument;
+            const songTitle = document.getElementById('modalSongTitle').textContent;
+            const song = SONGS_DB.find(s => s.title === songTitle);
+            if (song) renderChordDiagrams(song.chords);
+        });
+
+        // обработка смены строя
+        document.getElementById('modalStringsSelect').addEventListener('change', (e) => {
+            currentStrings = e.target.value;
+            // можно добавить логику пересчёта, но для демо оставим
+        });
+
+        // лёгкая анимация свечения
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes subtleGlow {
+                0% { opacity: 0.6; }
+                50% { opacity: 1; }
+                100% { opacity: 0.6; }
+            }
+            .glass-panel::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(circle at 30% 40%, rgba(180, 200, 255, 0.05), transparent 70%);
+                pointer-events: none;
+                animation: subtleGlow 8s infinite;
+                border-radius: 2.5rem;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // инициализация
+        renderChords();
+        renderSongs();
+
+        // закрытие по Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('songModal').classList.contains('active')) {
+                document.getElementById('songModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
     </script>
 </body>
 </html>
